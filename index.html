@@ -1,11 +1,428 @@
-<html>
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-<title>hello</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 - 아름다운 우리나라</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Taebaek, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* 헤더 섹션 */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, 
+                rgba(205, 32, 44, 0.9) 0%, 
+                rgba(0, 70, 127, 0.9) 100%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23f8f9fa" width="1200" height="800"/><path fill="%23e9ecef" d="M0,400 Q300,200 600,400 T1200,400 V800 H0 Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="30" r="1.5" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-20px) rotate(360deg); }
+        }
+
+        .hero-content {
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .korean-flag {
+            display: inline-block;
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(to bottom, #cd202c 50%, #004682 50%);
+            border-radius: 8px;
+            margin: 0 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* 네비게이션 */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #cd202c;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #cd202c, #004682);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* 섹션 스타일 */
+        .section {
+            padding: 5rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        .section h2 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #cd202c, #004682);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(205, 32, 44, 0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #cd202c;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* 특별한 섹션 - 한국의 미 */
+        .beauty-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 5rem 0;
+            margin: 3rem 0;
+        }
+
+        .beauty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .beauty-item {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .beauty-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .beauty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #cd202c, #004682);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* 푸터 */
+        .footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* 애니메이션 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<h1>내 생에 첫 홈페이지</h1>
-<a href="about/">about</a>
-<a href="contact/">contact</a>
-<a href="product/">product</a>
+    <!-- 네비게이션 -->
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <div class="logo">🇰🇷 대한민국</div>
+            <ul class="nav-links">
+                <li><a href="#home">홈</a></li>
+                <li><a href="#culture">문화</a></li>
+                <li><a href="#nature">자연</a></li>
+                <li><a href="#history">역사</a></li>
+                <li><a href="#people">사람들</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 메인 히어로 섹션 -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>대한민국</h1>
+            <div class="korean-flag"></div>
+            <p class="subtitle">아름다운 우리나라의 찬란한 문화와 자연을 만나보세요</p>
+        </div>
+    </section>
+
+    <!-- 한국의 미 섹션 -->
+    <section class="beauty-section">
+        <div class="beauty-grid">
+            <div class="beauty-item fade-in">
+                <div class="beauty-icon">🏔️</div>
+                <h3>자연의 아름다움</h3>
+                <p>백두산부터 한라산까지, 아름다운 산과 강, 바다가 어우러진 천혜의 자연경관</p>
+            </div>
+            <div class="beauty-item fade-in">
+                <div class="beauty-icon">🏯</div>
+                <h3>전통문화</h3>
+                <p>5천 년 역사 속에서 빚어진 고유한 전통문화와 예술의 정수</p>
+            </div>
+            <div class="beauty-item fade-in">
+                <div class="beauty-icon">🌸</div>
+                <h3>사계절의 변화</h3>
+                <p>봄의 벚꽃, 여름의 푸름, 가을의 단풍, 겨울의 설경까지 아름다운 사계절</p>
+            </div>
+            <div class="beauty-item fade-in">
+                <div class="beauty-icon">💝</div>
+                <h3>따뜻한 정</h3>
+                <p>서로를 아끼고 배려하는 따뜻한 마음과 끈끈한 인간관계</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 주요 섹션들 -->
+    <section class="section" id="culture">
+        <h2>문화</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>한류 문화</h3>
+                <p>K-POP, K-드라마, K-영화로 전 세계에 알려진 대한민국의 현대 문화. 전통과 현대가 조화롭게 어우러진 독특한 매력을 선보입니다.</p>
+            </div>
+            <div class="card">
+                <h3>전통 예술</h3>
+                <p>판소리, 탈춤, 서예, 도자기 등 오랜 세월 전해내려온 전통 예술의 아름다움과 깊이를 느껴보세요.</p>
+            </div>
+            <div class="card">
+                <h3>음식 문화</h3>
+                <p>김치, 불고기, 비빔밥 등 건강하고 맛있는 한국 음식으로 전 세계인들의 사랑을 받고 있습니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="nature">
+        <h2>자연</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>국립공원</h3>
+                <p>설악산, 지리산, 한라산 등 22개의 국립공원에서 만날 수 있는 웅장하고 아름다운 자연경관</p>
+            </div>
+            <div class="card">
+                <h3>아름다운 섬</h3>
+                <p>제주도, 독도, 울릉도 등 각각 독특한 매력을 지닌 아름다운 섬들의 절경</p>
+            </div>
+            <div class="card">
+                <h3>강과 바다</h3>
+                <p>한강, 금강, 낙동강과 동해, 서해, 남해의 아름다운 해안선과 갯벌</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <p>🇰🇷 자랑스러운 대한민국, 아름다운 우리나라 🇰🇷</p>
+        <p>© 2025 대한민국을 사랑하는 마음으로 제작</p>
+    </footer>
+
+    <script>
+        // 스크롤 효과
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // 부드러운 스크롤
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 스크롤 애니메이션
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 1s ease-out';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .beauty-item').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
