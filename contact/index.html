@@ -1,11 +1,784 @@
-<html>
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-<title>hello</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 - 아름다운 문화유산</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* 전통 패턴 생성 */
+        .traditional-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(205, 32, 44, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 80% 40%, rgba(0, 70, 127, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 40% 80%, rgba(205, 32, 44, 0.1) 0%, transparent 20%);
+            animation: pattern-move 20s infinite linear;
+        }
+
+        @keyframes pattern-move {
+            0% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(-10px) translateY(10px); }
+            50% { transform: translateX(10px) translateY(-10px); }
+            75% { transform: translateX(-5px) translateY(5px); }
+            100% { transform: translateX(0) translateY(0); }
+        }
+
+        /* 헤더 섹션 */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, 
+                rgba(205, 32, 44, 0.9) 0%, 
+                rgba(0, 70, 127, 0.9) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><path d="M200,50 L250,150 L350,150 L275,225 L300,325 L200,275 L100,325 L125,225 L50,150 L150,150 Z" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="2"/></svg>');
+            background-size: 200px 200px;
+            animation: star-pattern 30s infinite linear;
+        }
+
+        @keyframes star-pattern {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(200px) translateY(200px); }
+        }
+
+        .hero-content {
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero .subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .taegeuk {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #cd202c 50%, #004682 50%);
+            position: relative;
+            margin: 2rem 0;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            animation: rotate 10s infinite linear;
+        }
+
+        .taegeuk::before {
+            content: '';
+            position: absolute;
+            top: 25%;
+            left: 25%;
+            width: 50%;
+            height: 50%;
+            border-radius: 50%;
+            background: radial-gradient(circle, #cd202c 40%, #004682 60%);
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 네비게이션 */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(205, 32, 44, 0.1);
+        }
+
+        .nav.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #cd202c;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #cd202c, #004682);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* 궁궐 섹션 */
+        .palace-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .palace-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="20" y="60" width="60" height="30" fill="rgba(139,69,19,0.1)" rx="5"/><polygon points="10,60 50,30 90,60" fill="rgba(205,32,44,0.1)"/></svg>');
+            background-size: 150px 150px;
+            opacity: 0.3;
+        }
+
+        .section {
+            padding: 5rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            position: relative;
+        }
+
+        .section h2 {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #cd202c, #004682);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 궁궐 카드 */
+        .palace-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .palace-card {
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            border: 2px solid rgba(205, 32, 44, 0.1);
+            position: relative;
+        }
+
+        .palace-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .palace-visual {
+            height: 200px;
+            background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .palace-roof {
+            position: absolute;
+            bottom: 40px;
+            left: 10%;
+            right: 10%;
+            height: 80px;
+            background: linear-gradient(135deg, #cd202c 0%, #b91c3c 100%);
+            clip-path: polygon(0 100%, 15% 20%, 85% 20%, 100% 100%);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .palace-roof::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 5%;
+            right: 5%;
+            height: 20px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            clip-path: polygon(0 100%, 20% 0%, 80% 0%, 100% 100%);
+        }
+
+        .palace-building {
+            position: absolute;
+            bottom: 0;
+            left: 20%;
+            right: 20%;
+            height: 60px;
+            background: linear-gradient(135deg, #deb887 0%, #d2b48c 100%);
+            border-radius: 5px 5px 0 0;
+        }
+
+        .palace-pillars {
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            right: 25%;
+            height: 50px;
+            background: repeating-linear-gradient(
+                90deg,
+                #8b4513 0px,
+                #8b4513 8px,
+                transparent 8px,
+                transparent 16px
+            );
+        }
+
+        .palace-content {
+            padding: 2rem;
+        }
+
+        .palace-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #cd202c;
+            font-weight: 600;
+        }
+
+        .palace-content p {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .palace-features {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            background: linear-gradient(45deg, #cd202c, #004682);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* 한복 섹션 */
+        .hanbok-section {
+            background: linear-gradient(135deg, #fff8dc 0%, #faf0e6 100%);
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .hanbok-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .hanbok-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 25px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            text-align: center;
+            border: 2px solid rgba(205, 32, 44, 0.1);
+        }
+
+        .hanbok-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        }
+
+        .hanbok-visual {
+            width: 120px;
+            height: 150px;
+            margin: 0 auto 2rem;
+            position: relative;
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+            border-radius: 60px 60px 0 0;
+            overflow: hidden;
+        }
+
+        .hanbok-jeogori {
+            position: absolute;
+            top: 20px;
+            left: 10px;
+            right: 10px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .hanbok-chima {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: linear-gradient(135deg, #4169e1 0%, #0000cd 100%);
+            border-radius: 0 0 10px 10px;
+        }
+
+        .hanbok-belt {
+            position: absolute;
+            top: 75px;
+            left: 15px;
+            right: 15px;
+            height: 8px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border-radius: 4px;
+        }
+
+        .hanbok-card.men .hanbok-visual {
+            background: linear-gradient(135deg, #708090 0%, #2f4f4f 100%);
+        }
+
+        .hanbok-card.men .hanbok-jeogori {
+            background: linear-gradient(135deg, #708090 0%, #2f4f4f 100%);
+        }
+
+        .hanbok-card.men .hanbok-chima {
+            background: linear-gradient(135deg, #000080 0%, #191970 100%);
+        }
+
+        /* 자연 섹션 */
+        .nature-section {
+            background: linear-gradient(135deg, #e6f3ff 0%, #b3d9ff 100%);
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .nature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .nature-card {
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .nature-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .nature-visual {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mountain-visual {
+            background: linear-gradient(135deg, #87ceeb 0%, #4682b4 100%);
+        }
+
+        .mountain-peaks {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(135deg, #228b22 0%, #006400 100%);
+            clip-path: polygon(0 100%, 25% 30%, 50% 60%, 75% 20%, 100% 40%, 100% 100%);
+        }
+
+        .mountain-snow {
+            position: absolute;
+            bottom: 80px;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+            clip-path: polygon(0 100%, 25% 100%, 50% 60%, 75% 100%, 100% 100%);
+        }
+
+        .ocean-visual {
+            background: linear-gradient(135deg, #87ceeb 0%, #4682b4 100%);
+        }
+
+        .ocean-waves {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(135deg, #1e90ff 0%, #0066cc 100%);
+            clip-path: polygon(0 100%, 100% 100%, 100% 70%, 90% 60%, 80% 70%, 70% 50%, 60% 60%, 50% 40%, 40% 50%, 30% 30%, 20% 40%, 10% 20%, 0 30%);
+        }
+
+        .forest-visual {
+            background: linear-gradient(135deg, #98fb98 0%, #90ee90 100%);
+        }
+
+        .forest-trees {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 140px;
+            background: linear-gradient(135deg, #228b22 0%, #006400 100%);
+            clip-path: polygon(0 100%, 15% 40%, 30% 60%, 45% 30%, 60% 50%, 75% 20%, 90% 45%, 100% 100%);
+        }
+
+        .nature-content {
+            padding: 2rem;
+        }
+
+        .nature-content h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: #cd202c;
+            font-weight: 600;
+        }
+
+        .nature-content p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* 문화 유산 섹션 */
+        .heritage-section {
+            background: linear-gradient(135deg, #f5f5dc 0%, #fffacd 100%);
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .heritage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .heritage-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 25px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            text-align: center;
+            border: 2px solid rgba(205, 32, 44, 0.1);
+            position: relative;
+        }
+
+        .heritage-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        }
+
+        .heritage-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #cd202c, #004682);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .heritage-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #cd202c;
+            font-weight: 600;
+        }
+
+        .heritage-card p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* 푸터 */
+        .footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            text-align: center;
+            padding: 4rem 0;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: 50px 50px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .footer p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        /* 애니메이션 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .section h2 {
+                font-size: 2.5rem;
+            }
+            
+            .palace-grid,
+            .hanbok-grid,
+            .nature-grid,
+            .heritage-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-<h1>내 생에 첫 홈페이지</h1>
-<a href="about/">about</a>
-<a href="contact/">contact</a>
-<a href="product/">product</a>
-</body>
-</html>
+    <!-- 네비게이션 -->
+    <nav class="nav" id="nav">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="taegeuk" style="width: 30px; height: 30px; margin: 0;"></span>
+                대한민국
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">홈</a></li>
+                <li><a href="#palaces">궁궐</a></li>
+                <li><a href="#hanbok">한복</a></li>
+                <li><a href="#nature">자연</a></li>
+                <li><a href="#heritage">문화유산</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 메인 히어로 섹션 -->
+    <section class="hero" id="home">
+        <div class="traditional-pattern"></div>
+        <div class="hero-content">
+            <h1>대한민국</h1>
+            <div class="taegeuk"></div>
+            <p class="subtitle">5천년 역사와 전통이 살아 숨쉬는 아름다운 문화의 나라</p>
+        </div>
+    </section>
+
+    <!-- 궁궐 섹션 -->
+    <section class="palace-section" id="palaces">
+        <div class="section">
+            <h2>🏯 조선왕조의 궁궐</h2>
+            <div class="palace-grid">
+                <div class="palace-card">
+                    <div class="palace-visual">
+                        <div class="palace-roof"></div>
+                        <div class="palace-building"></div>
+                        <div class="palace-pillars"></div>
+                    </div>
+                    <div class="palace-content">
+                        <h3>경복궁</h3>
+                        <p>조선 왕조 최고의 정궁으로, 웅장하고 화려한 건축미를 자랑합니다. 근정전, 경회루, 향원정 등 아름다운 전각들이 조화롭게 어우러져 있습니다.</p>
+                        <div class="palace-features">
+                            <span class="feature-tag">근정전</span>
+                            <span class="feature-tag">경회루</span>
+                            <span class="feature-tag">수문장 교대식</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="palace-card">
+                    <div class="palace-visual">
+                        <div class="palace-roof"></div>
+                        <div class="palace-building"></div>
+                        <div class="palace-pillars"></div>
+                    </div>
+                    <div class="palace-content">
+                        <h3>창덕궁</h3>
+                        <p>유네스코 세계문화유산으로 지정된 조선의 이궁. 자연과 조화를 이룬 건축과 아름다운 후원(비원)으로 유명합니다.</p>
+                        <div class="palace-features">
+                            <span class="feature-tag">인정전</span>
+                            <span class="feature-tag">후원</span>
+                            <span class="feature-tag">세계문화유산</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="palace-card">
+                    <div class="palace-visual">
+                        <div class="palace-roof"></div>
+                        <div class="palace-building"></div>
+                        <div class="palace-pillars"></div>
+                    </div>
+                    <div class="palace-content">
+                        <h3>덕수궁</h3>
+                        <p>서구식 건물과 전통 한옥이 공존하는 독특한 궁궐. 석조전과 중명전에서 한국 근대사의 흔적을 만날 수 있습니다.</p>
+                        <div class="palace-features">
+                            <span class="feature-tag">석조전</span>
+                            <span class="feature-tag">중명전</span>
+                            <span class="feature-tag">근대사</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 한복 섹션 -->
+    <section class="hanbok-section" id="hanbok">
+        <div class="section">
+            <h2>👘 아름다운 한복</h2>
+            <div class="hanbok-grid">
+                <div class="hanbok-card">
+                    <div class="hanbok-visual">
+                        <div class="hanbok-jeogori"></div>
+                        <div class="hanbok-chima"></div>
+                        <div class="hanbok-belt"></div>
+                    </div>
+                    <h3>여성 한복</h3>
+                    <p>저고리와 치마로 구성된 여성 한복은 우아하고 단정한 아름다움을 표현합니다. 색동저고리와 풍성한 치마가 조화를 이룹니다.</p>
+                </div>
+                
+                <div class="hanbok-card men">
+                    <div class="hanbok-visual">
+                        <div class="hanbok-jeogori"></div>
+                        <div class="hanbok-chima"></div>
+                        <div class="hanbok-belt"></div>
+                    </div>
+                    <h3>남성 한복</h3>
+                    <p>저고리와 바지로 구성된 남성 한복은 단정하고 품위 있는 멋을 자랑합니다. 두루마기와 갓을 착용하면 더욱 격조 높은 모습이 됩니다.</p>
+                </div>
+                
+                <div class="hanbok-card">
+                    <div class="hanbok-visual">
+                        <div class="hanbok-jeogori"></div>
+                        <div class="hanbok-chima"></div>
+                        <div class="hanbok-belt"></div>
+                    </div>
+                    <h3>아동 한복</h3>
+                    <p>색동저고리와 색동치마로 만든 아동 한복은 무지개빛 아름다움으로 아이들의 순수함을 더욱 돋보이게 합니다.</p>
+                </div>
+                
+                <div class="hanbok-card">
+                    <div class="hanbok-visual">
+                        <div class="hanbok-jeogori"></div>
+                        <div class="hanbok-chima"></div>
+                        <div class="hanbok-belt"></div>
+                    </div>
+                    <h3>혼례 한복</h3>
+                    <p>전통 혼례복은 화려하고 성스러
